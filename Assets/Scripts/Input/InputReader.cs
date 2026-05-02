@@ -6,8 +6,9 @@ public class InputReader : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Jump = nameof(Jump);
 
-    public float Direction { get; private set; }
     public event Action JumpPressed;
+
+    public float Direction { get; private set; }
 
     private void Update()
     {
