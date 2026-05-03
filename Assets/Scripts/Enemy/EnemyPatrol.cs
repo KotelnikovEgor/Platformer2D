@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyPatrol : MonoBehaviour
 {
     [SerializeField] private Transform[] _targetPoints;
     [SerializeField] private float _speed;
 
+    private readonly int _scaleChanger = 1;
+
     private int _currentPoint = 0;
     private Vector3 _reqiredScale = new(0, 1, 1);
-
-    private readonly int _scaleChanger = 1;
 
     private void Update()
     {
