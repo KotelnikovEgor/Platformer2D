@@ -1,30 +1,45 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyVision : MonoBehaviour
 {
-    [SerializeField] private LayerMask layer;
+    [SerializeField] private LayerMask _layer;
 
     private readonly float _distance = 5f;
+    private readonly float _trackDelay = 0.1f;
 
-    private bool _isSeePlayer = false;
+    private RaycastHit2D _hit;
 
-    public event Action Seessing;
-    public event Action Unsawed;
+    public Transform Player {  get; private set; }
+    public bool IsSeePlayer { get; private set; } = false;
+
+    private void Start()
+    {
+        StartCoroutine(TrackHit());
+    }
 
     private void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * transform.localScale.x, _distance, layer);
-
-        if (!_isSeePlayer && hit)
+        if (_hit)
         {
-            Seessing?.Invoke();
-            _isSeePlayer = true;
+            Player = _hit.transform;
+            IsSeePlayer = true;
         }
-        else if (_isSeePlayer && !hit)
+        else
         {
-            Unsawed?.Invoke();
-            _isSeePlayer = false;
+            Player = null;
+            IsSeePlayer = false;
+        }
+    }
+
+    private IEnumerator TrackHit()
+    {
+        WaitForSeconds seconds = new(_trackDelay);
+
+        while (enabled)
+        {
+            _hit = Physics2D.Raycast(transform.position, transform.right, _distance, _layer);
+            yield return seconds;
         }
     }
 }

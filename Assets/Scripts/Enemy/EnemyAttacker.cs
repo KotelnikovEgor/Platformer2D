@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyAnimation))]
 public class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] private LayerMask layer;
@@ -10,6 +11,12 @@ public class EnemyAttacker : MonoBehaviour
     private readonly int _damage = 1;
 
     private bool _canAttack = true;
+    private EnemyAnimation _enemyAnimation;
+
+    private void Start()
+    {
+        _enemyAnimation = GetComponent<EnemyAnimation>();
+    }
 
     private void Update()
     {
@@ -18,9 +25,10 @@ public class EnemyAttacker : MonoBehaviour
 
         Collider2D hit = Physics2D.OverlapCircle(transform.position, _radius, layer);
 
-        if (hit != null && hit.TryGetComponent(out Health health))
+        if (hit != null && hit.TryGetComponent(out IDamageable damageable))
         {
-            health.TakeDamage(_damage);
+            damageable.TakeDamage(_damage);
+            _enemyAnimation.EnableAttackParameter();
             StartCoroutine(Reload());
         }
     }

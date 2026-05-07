@@ -1,20 +1,25 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Health))]
 public class Collector : MonoBehaviour
 {
-    public event Action MedicinePicked;
+    private Health _health;
+
+    private void Start()
+    {
+        _health = GetComponent<Health>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Coin>(out _))
+        if (collision.gameObject.TryGetComponent(out Coin coin))
         {
-            Destroy(collision.gameObject);
+            coin.Collect();
         }
-        else if (collision.gameObject.TryGetComponent<Medicine>(out _))
+        else if (collision.gameObject.TryGetComponent(out Medicine medicine))
         {
-            Destroy(collision.gameObject);
-            MedicinePicked?.Invoke();
+            _health.GetTreatment(medicine.Treatment);
+            medicine.Collect();
         }
     }
 }

@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Medicine : MonoBehaviour
 {
-    public event Action Destroying;
+    public int Treatment { get; private set; } = 1;
 
-    private void OnDestroy()
+    public event Action Collected;
+
+    public void Collect()
     {
-        Destroying?.Invoke();
+        Collected?.Invoke();
     }
 }

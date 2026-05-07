@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Animation))]
 public class Attacker : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
@@ -11,13 +12,15 @@ public class Attacker : MonoBehaviour
     private readonly int _damage = 1;
 
     private bool _canAttack = true;
+    private Animation _playerAnimation;
 
     private void Start()
     {
         _inputReader.FirePressed += Attack;
+        _playerAnimation = GetComponent<Animation>();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _inputReader.FirePressed -= Attack;
     }
@@ -29,8 +32,11 @@ public class Attacker : MonoBehaviour
 
         Collider2D hit = Physics2D.OverlapCircle(transform.position, _radius, _layer);
 
-        if (hit != null && hit.TryGetComponent(out EnemyHealth health))
-            health.TakeDamage(_damage);
+        if (hit != null && hit.TryGetComponent(out IDamageable damageable))
+        {
+            damageable.TakeDamage(_damage);
+            _playerAnimation.EnableAttackParameter();
+        }
 
         StartCoroutine(Reload());
     }

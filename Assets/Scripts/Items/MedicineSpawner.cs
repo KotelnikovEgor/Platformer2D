@@ -18,7 +18,8 @@ public class MedicineSpawner : MonoBehaviour
 
     private void Respawn()
     {
-        _medicine.Destroying -= Respawn;
+        _medicine.Collected -= Respawn;
+        Destroy(_medicine.gameObject);
         StartCoroutine(Spawn());
     }
 
@@ -31,6 +32,6 @@ public class MedicineSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(_rate);
         _medicine = Instantiate(_medicinePrefab, GeneratePosition(), Quaternion.identity);
-        _medicine.Destroying += Respawn;
+        _medicine.Collected += Respawn;
     }
 }

@@ -1492,10 +1492,12 @@ GameObject:
   - component: {fileID: 702210340}
   - component: {fileID: 702210334}
   - component: {fileID: 702210342}
-  - component: {fileID: 702210341}
   - component: {fileID: 702210343}
   - component: {fileID: 702210344}
   - component: {fileID: 702210345}
+  - component: {fileID: 702210346}
+  - component: {fileID: 702210347}
+  - component: {fileID: 702210348}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1687,18 +1689,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &702210341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702210333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e79df0b7cd4a0e64891addecb9b36a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimation
 --- !u!114 &702210342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1712,7 +1702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jump
   _inputReader: {fileID: 419348046}
-  _groundCheck: {fileID: 1999153913}
+  _groundDetector: {fileID: 1999153913}
   _jumpForce: 350
 --- !u!114 &702210343
 MonoBehaviour:
@@ -1754,7 +1744,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5056d6ebd6a299408bb826645a86573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _health: 3
+--- !u!114 &702210346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702210333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a23dff318df2aa4381f9f9b93032ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dead
+--- !u!114 &702210347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702210333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7dbce4cf012b04f87c1e7abd4d24b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Fliper
+--- !u!114 &702210348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702210333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adcbb2b6d77c834dbaf7a5f9e06e3af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animation
 --- !u!1 &882803655
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,12 +2059,15 @@ GameObject:
   - component: {fileID: 1903697319}
   - component: {fileID: 1903697318}
   - component: {fileID: 1903697322}
-  - component: {fileID: 1903697323}
+  - component: {fileID: 1903697330}
+  - component: {fileID: 1903697329}
   - component: {fileID: 1903697324}
-  - component: {fileID: 1903697325}
   - component: {fileID: 1903697326}
   - component: {fileID: 1903697321}
   - component: {fileID: 1903697327}
+  - component: {fileID: 1903697328}
+  - component: {fileID: 1903697331}
+  - component: {fileID: 1903697332}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2182,7 +2210,6 @@ MonoBehaviour:
   _targetPoints:
   - {fileID: 1625695840}
   - {fileID: 1077276499}
-  _speed: 2
 --- !u!95 &1903697322
 Animator:
   serializedVersion: 7
@@ -2205,19 +2232,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1903697323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903697317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e696bbcb5a80e084c9bd264c507ad3d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  _health: 3
 --- !u!114 &1903697324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2233,18 +2247,6 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &1903697325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903697317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6fdb80ee6115e2418f37203c6781c87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStates
 --- !u!114 &1903697326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2257,7 +2259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4288c264bfd8d404da3af67c4715b1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyVision
-  layer:
+  _layer:
     serializedVersion: 2
     m_Bits: 64
 --- !u!114 &1903697327
@@ -2272,8 +2274,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29c31447719caa4f92ff231a0844507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPersecution
-  _player: {fileID: 702210337}
-  _speed: 3
+--- !u!114 &1903697328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903697317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be561f827bc56ab469b5c37defeef285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimation
+--- !u!114 &1903697329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903697317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d42e5f67648fe3419beb50ae32796bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDead
+--- !u!114 &1903697330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903697317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5056d6ebd6a299408bb826645a86573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!114 &1903697331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903697317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7dbce4cf012b04f87c1e7abd4d24b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Fliper
+--- !u!114 &1903697332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903697317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b43d81498362d544c89e4e5197dea88a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachineFactory
 --- !u!1 &1999153911
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,7 +2345,7 @@ GameObject:
   - component: {fileID: 1999153912}
   - component: {fileID: 1999153913}
   m_Layer: 0
-  m_Name: GroundCheck
+  m_Name: GroundDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

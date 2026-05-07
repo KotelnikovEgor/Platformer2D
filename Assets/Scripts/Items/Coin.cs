@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public event Action Destroying;
+    public event Action Collected;
 
-    private void OnDestroy()
+    public void Collect()
     {
-        Destroying?.Invoke();
+        Collected?.Invoke();
     }
 }

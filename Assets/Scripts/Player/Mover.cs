@@ -1,38 +1,37 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Fliper), typeof(Animation))]
 public class Mover : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private float _speed;
 
-    private Vector3 _reqiredScale = new(0, 1, 1);
+    private Fliper _fliper;
+    private Animation _playerAnimation;
 
-    public event Action Moving;
-    public event Action Staying;
+    private void Start()
+    {
+        _fliper = GetComponent<Fliper>();
+        _playerAnimation = GetComponent<Animation>();
+    }
 
     private void Update()
     {
         if (_inputReader.Direction != 0)
         {
             Move();
-            Flip();
-            Moving?.Invoke();
+            _fliper.Flip(_inputReader.Direction);
+            _playerAnimation.EnableRunParameter();
         }
         else
         {
-            Staying?.Invoke();
+            _playerAnimation.DisableRunParameter();
         }
     }
 
     private void Move()
     {
-        Vector3 direction = Vector2.right * _inputReader.Direction;
+        Vector3 direction = transform.right * _inputReader.Direction;
         transform.Translate(direction * _speed * Time.deltaTime);
-    }
-
-    private void Flip()
-    {
-        transform.localScale = Vector3.right * _inputReader.Direction + _reqiredScale;
     }
 }

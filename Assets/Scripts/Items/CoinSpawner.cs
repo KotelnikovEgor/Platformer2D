@@ -15,7 +15,8 @@ public class CoinSpawner : MonoBehaviour
 
     private void Respawn()
     {
-        _coin.Destroying -= Respawn;
+        _coin.Collected -= Respawn;
+        Destroy(_coin.gameObject);
         StartCoroutine(Spawn());
     }
 
@@ -23,6 +24,6 @@ public class CoinSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(_spawnRate);
         _coin = Instantiate(_coinPrefab, transform.position, Quaternion.identity);
-        _coin.Destroying += Respawn;
+        _coin.Collected += Respawn;
     }
 }
