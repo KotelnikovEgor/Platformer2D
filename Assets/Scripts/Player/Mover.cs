@@ -1,18 +1,18 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Fliper), typeof(Animation))]
+[RequireComponent(typeof(Fliper), typeof(PlayerAnimator))]
 public class Mover : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private float _speed;
 
     private Fliper _fliper;
-    private Animation _playerAnimation;
+    private PlayerAnimator _playerAnimator;
 
     private void Start()
     {
         _fliper = GetComponent<Fliper>();
-        _playerAnimation = GetComponent<Animation>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     private void Update()
@@ -21,11 +21,11 @@ public class Mover : MonoBehaviour
         {
             Move();
             _fliper.Flip(_inputReader.Direction);
-            _playerAnimation.EnableRunParameter();
+            _playerAnimator.EnableRunParameter();
         }
         else
         {
-            _playerAnimation.DisableRunParameter();
+            _playerAnimator.DisableRunParameter();
         }
     }
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(PlayerAnimator))]
 public class Attacker : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
@@ -12,12 +12,12 @@ public class Attacker : MonoBehaviour
     private readonly int _damage = 1;
 
     private bool _canAttack = true;
-    private Animation _playerAnimation;
+    private PlayerAnimator _playerAnimator;
 
     private void Start()
     {
         _inputReader.FirePressed += Attack;
-        _playerAnimation = GetComponent<Animation>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     private void OnDestroy()
@@ -35,7 +35,7 @@ public class Attacker : MonoBehaviour
         if (hit != null && hit.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage(_damage);
-            _playerAnimation.EnableAttackParameter();
+            _playerAnimator.EnableAttackParameter();
         }
 
         StartCoroutine(Reload());

@@ -3,32 +3,32 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable
 {
-    private readonly int _startHealth = 3;
+    private readonly int _startValue = 3;
 
-    private int _healthValue;
+    private int _currentValue;
 
     public event Action Overed;
 
     private void Start()
     {
-        _healthValue = _startHealth;
+        _currentValue = _startValue;
     }
 
     public void TakeDamage(int damage)
     {
-        _healthValue -= damage;
+        _currentValue -= damage;
 
-        if (_healthValue <= 0)
+        if (_currentValue <= 0)
             Overed?.Invoke();
     }
 
     public void GetTreatment(int treatment)
     {
-        _healthValue += treatment;
+        _currentValue += treatment;
     }
 
     public void Recover()
     {
-        _healthValue = _startHealth;
+        _currentValue = _startValue;
     }
 }

@@ -1,25 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyPatrolState), typeof(EnemyPersecutionState))]
-public class EnemyStateMachineFactory : MonoBehaviour
+public class EnemyStateMachineFactory
 {
-    private EnemyPatrolState _enemyPatrolState;
-    private EnemyPersecutionState _enemyPersecutionState;
+    private readonly EnemyAnimator _enemyAnimator;
+    private readonly EnemyVision _enemyVision;
+    private readonly Fliper _fliper;
+    private readonly Transform _transform;
+    private readonly Transform[] _targetPoints;
 
-    private void Awake()
+    public EnemyStateMachineFactory(EnemyAnimator enemyAnimation, EnemyVision enemyVision, Fliper fliper, Transform transform, Transform[] targetPoints)
     {
-        _enemyPatrolState = GetComponent<EnemyPatrolState>();
-        _enemyPersecutionState = GetComponent<EnemyPersecutionState>();
-        Create();
+        _enemyAnimator = enemyAnimation;
+        _enemyVision = enemyVision;
+        _fliper = fliper;
+        _transform = transform;
+        _targetPoints = targetPoints;
     }
 
-    public void Create()
+    public StateMachine Create()
     {
         List<IExitableState> states = new()
         {
-            _enemyPatrolState,
-            _enemyPersecutionState
+            new EnemyPatrolState(_fliper, _enemyVision, _transform, _targetPoints),
+            new EnemyPersecutionState(_enemyVision, _transform),
+            new EnemyAttackState(_enemyAnimator, _enemyVision, _transform)
         };
 
         StateMachine stateMachine = new(states);
@@ -30,5 +35,7 @@ public class EnemyStateMachineFactory : MonoBehaviour
         }
 
         stateMachine.ChangeState<EnemyPatrolState>();
+
+        return stateMachine;
     }
 }

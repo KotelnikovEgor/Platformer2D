@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Health))]
-public class Dead : MonoBehaviour
+public class Death : MonoBehaviour
 {
     private Health _health;
     private Vector3 _startPosition;

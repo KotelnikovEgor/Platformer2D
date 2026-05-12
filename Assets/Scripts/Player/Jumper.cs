@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Animation))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerAnimator))]
 public class Jumper : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
@@ -8,12 +8,12 @@ public class Jumper : MonoBehaviour
     [SerializeField] private float _jumpForce = 350f;
 
     private Rigidbody2D _rigidbody;
-    private Animation _playerAnimation;
+    private PlayerAnimator _playerAnimator;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _playerAnimation = GetComponent<Animation>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
         _inputReader.JumpPressed += Jump;
     }
 
@@ -25,9 +25,9 @@ public class Jumper : MonoBehaviour
     private void Update()
     {
         if (_groundDetector.IsGrounded)
-            _playerAnimation.DisableJumpParameter();
+            _playerAnimator.DisableJumpParameter();
         else
-            _playerAnimation.EnableJumpParameter();
+            _playerAnimator.EnableJumpParameter();
     }
 
     private void Jump()
