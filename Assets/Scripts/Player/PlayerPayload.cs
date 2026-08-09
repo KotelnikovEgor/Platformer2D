@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerPayload : ITransformPayload
+public class PlayerPayload : IPayload
 {
     public Transform Transform { get; private set; }
 

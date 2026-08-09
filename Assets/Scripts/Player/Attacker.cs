@@ -1,50 +1,44 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerAnimator))]
-public class Attacker : MonoBehaviour
+public class Attacker : IDisposable
 {
-    [SerializeField] private InputReader _inputReader;
-    [SerializeField] private LayerMask _layer;
-
-    private readonly float _radius = 0.6f;
+    private readonly InputReader _inputReader;
+    private readonly Transform _transform;
+    private readonly LayerMask _enemyLayer;
+    private readonly PlayerAnimationSwitcher _animationSwitcher;
+    private readonly float _radius = 1f;
     private readonly float _rate = 1f;
-    private readonly int _damage = 1;
+    private readonly int _damage = 20;
 
-    private bool _canAttack = true;
-    private PlayerAnimator _playerAnimator;
+    private float _nextAttackTime;
 
-    private void Start()
+    public Attacker(InputReader inputReader, Transform transform,  LayerMask enemyLayer, PlayerAnimationSwitcher animationSwitcher)
     {
+        _inputReader = inputReader;
+        _transform = transform;
+        _enemyLayer = enemyLayer;
+        _animationSwitcher = animationSwitcher;
         _inputReader.FirePressed += Attack;
-        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
-    private void OnDestroy()
+    public void Dispose()
     {
         _inputReader.FirePressed -= Attack;
     }
 
     private void Attack()
     {
-        if (!_canAttack)
+        if (Time.time < _nextAttackTime) 
             return;
 
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, _radius, _layer);
+        Collider2D hit = Physics2D.OverlapCircle(_transform.position, _radius, _enemyLayer);
 
         if (hit != null && hit.TryGetComponent(out IDamageable damageable))
         {
+            _animationSwitcher.EnableAttack();
             damageable.TakeDamage(_damage);
-            _playerAnimator.EnableAttackParameter();
+            _nextAttackTime = Time.time + _rate;
         }
-
-        StartCoroutine(Reload());
-    }
-
-    private IEnumerator Reload()
-    {
-        _canAttack = false;
-        yield return new WaitForSeconds(_rate);
-        _canAttack = true;
     }
 }

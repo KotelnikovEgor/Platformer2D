@@ -1,23 +1,25 @@
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Health))]
-public class EnemyDeath : MonoBehaviour
+public class EnemyDeath : IDisposable
 {
-    private Health _health;
+    private readonly Health _health;
+    private readonly GameObject _gameObject;
 
-    private void Start()
+    public EnemyDeath(Health health, GameObject gameObject)
     {
-        _health = GetComponent<Health>();
+        _health = health;
         _health.Overed += Die;
+        _gameObject = gameObject;
     }
 
-    private void OnDestroy()
+    public void Dispose()
     {
         _health.Overed -= Die;
     }
 
     private void Die()
     {
-        Destroy(gameObject);
+        UnityEngine.Object.Destroy(_gameObject);
     }
 }

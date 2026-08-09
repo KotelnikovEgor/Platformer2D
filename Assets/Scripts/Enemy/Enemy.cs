@@ -2,23 +2,30 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private EnemyAnimator _enemyAnimator;
-    [SerializeField] private EnemyVision _enemyVision;
-    [SerializeField] private Fliper _fliper;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private EnemyVision _vision;
+    [SerializeField] private Vector3[] _targetPoints;
+    [SerializeField] private Health _health;
 
-    private StateMachine _stateMachine;
-
-    public EnemyAnimator EnemyAnimation => _enemyAnimator;
-    public EnemyVision EnemyVision => _enemyVision;
-    public Fliper Fliper => _fliper;
+    private IStateMachineUpdater _stateMachine;
+    private EnemyDeath _enemyDeath;
 
     private void Update()
     {
         _stateMachine.UpdateState();
     }
 
-    public void Construct(StateMachine stateMachine)
+    private void OnDestroy()
     {
-        _stateMachine = stateMachine;
+        _enemyDeath.Dispose();
+    }
+
+    public void Construct()
+    {
+        Fliper fliper = new(transform);
+        EnemyAnimationSwitcher animationSwitcher = new(_animator);
+        EnemyStateMachineFactory stateMachineFactory = new(animationSwitcher, _vision, transform, _targetPoints, fliper);
+        _stateMachine = stateMachineFactory.Create();
+        _enemyDeath = new(_health, gameObject);
     }
 }

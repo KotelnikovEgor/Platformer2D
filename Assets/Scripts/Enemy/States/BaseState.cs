@@ -2,21 +2,16 @@ using UnityEngine;
 
 public abstract class BaseState : IExitableState
 {
+    protected readonly IStateChanger _stateMachine;
     protected readonly Transform _transform;
-    protected readonly EnemyVision _enemyVision;
+    protected readonly EnemyVision _vision;
 
-    protected StateMachine _stateMachine;
-
-    protected BaseState(Transform transform, EnemyVision enemyVision)
+    protected BaseState(IStateChanger stateChanger, Transform transform, EnemyVision vision)
     {
+        _stateMachine = stateChanger;
         _transform = transform;
-        _enemyVision = enemyVision;
+        _vision = vision;
     }
 
     public abstract void Exit();
-
-    public void SetStateMachine(StateMachine stateMachine)
-    {
-        _stateMachine = stateMachine;
-    }
 }

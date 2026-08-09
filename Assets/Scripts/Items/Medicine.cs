@@ -1,14 +1,14 @@
-using System;
 using UnityEngine;
 
-public class Medicine : MonoBehaviour
+public class Medicine : MonoBehaviour, ICollectible
 {
-    public int Treatment { get; private set; } = 1;
+    [SerializeField] private int _treatment;
 
-    public event Action Collected;
-
-    public void Collect()
+    public void Collect(Collector collector)
     {
-        Collected?.Invoke();
+        if(collector.TryGetComponent(out ITreatmentable treatmentable))
+            treatmentable.GetTreatment(_treatment);
+
+        Destroy(gameObject);
     }
 }

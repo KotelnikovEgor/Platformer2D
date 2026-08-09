@@ -3,39 +3,34 @@ using UnityEngine;
 
 public class EnemyStateMachineFactory
 {
-    private readonly EnemyAnimator _enemyAnimator;
-    private readonly EnemyVision _enemyVision;
-    private readonly Fliper _fliper;
+    private readonly EnemyAnimationSwitcher _animationSwitcher;
+    private readonly EnemyVision _vision;
     private readonly Transform _transform;
-    private readonly Transform[] _targetPoints;
+    private readonly Vector3[] _targetPoints;
+    private readonly Fliper _fliper;
 
-    public EnemyStateMachineFactory(EnemyAnimator enemyAnimation, EnemyVision enemyVision, Fliper fliper, Transform transform, Transform[] targetPoints)
+    public EnemyStateMachineFactory(EnemyAnimationSwitcher animationSwitcher, EnemyVision vision, Transform transform, Vector3[] targetPoints, Fliper fliper)
     {
-        _enemyAnimator = enemyAnimation;
-        _enemyVision = enemyVision;
-        _fliper = fliper;
+        _animationSwitcher = animationSwitcher;
+        _vision = vision;
         _transform = transform;
         _targetPoints = targetPoints;
+        _fliper = fliper;
     }
 
     public StateMachine Create()
     {
+        StateMachine stateMachine = new();
+
         List<IExitableState> states = new()
         {
-            new EnemyPatrolState(_fliper, _enemyVision, _transform, _targetPoints),
-            new EnemyPersecutionState(_enemyVision, _transform),
-            new EnemyAttackState(_enemyAnimator, _enemyVision, _transform)
+            new PatrolState(stateMachine, _transform, _vision, _targetPoints, _fliper),
+            new PersecutionState(stateMachine, _transform, _vision),
+            new AttackState(stateMachine, _transform, _vision, _animationSwitcher)
         };
 
-        StateMachine stateMachine = new(states);
-
-        foreach (IExitableState state in states)
-        {
-            state.SetStateMachine(stateMachine);
-        }
-
-        stateMachine.ChangeState<EnemyPatrolState>();
-
+        stateMachine.Initialize(states);
+        stateMachine.ChangeState<PatrolState>();
         return stateMachine;
     }
 }

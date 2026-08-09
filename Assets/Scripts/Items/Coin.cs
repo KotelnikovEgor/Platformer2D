@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, ICollectible
 {
-    public event Action Collected;
-
-    public void Collect()
+    public void Collect(Collector collector)
     {
-        Collected?.Invoke();
+        Destroy(gameObject);
     }
 }
