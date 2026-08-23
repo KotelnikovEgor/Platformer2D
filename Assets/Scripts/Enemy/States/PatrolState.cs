@@ -26,10 +26,10 @@ public class PatrolState : BaseState, IEnterableState, IUpdateState
 
     public void Update()
     {
-        if (_vision.IsSeePlayer)
+        if (Vision.IsSeePlayer)
         {
-            PlayerPayload payload = new(_vision.Player);
-            _stateMachine.ChangeState<PersecutionState, PlayerPayload>(payload);
+            PlayerPayload payload = new(Vision.Player);
+            StateMachine.ChangeState<PersecutionState, PlayerPayload>(payload);
             return;
         }
 
@@ -38,12 +38,12 @@ public class PatrolState : BaseState, IEnterableState, IUpdateState
 
     private void Move()
     {
-        float direction = _targetPoints[_currentPoint].x - _transform.position.x;
+        float direction = _targetPoints[_currentPoint].x - Transform.position.x;
         _fliper.Flip(direction);
 
-        _transform.position = Vector3.MoveTowards(_transform.position, _targetPoints[_currentPoint], _speed * Time.deltaTime);
+        Transform.position = Vector3.MoveTowards(Transform.position, _targetPoints[_currentPoint], _speed * Time.deltaTime);
 
-        if (_transform.position == _targetPoints[_currentPoint])
+        if (Transform.position == _targetPoints[_currentPoint])
             _currentPoint = (_currentPoint + 1) % _targetPoints.Length;
     }
 }

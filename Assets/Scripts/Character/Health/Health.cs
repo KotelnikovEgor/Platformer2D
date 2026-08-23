@@ -1,42 +1,39 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDamageable, ITreatmentable, IRecoverable
+public class Health : MonoBehaviour, IValueChanger, IDamageable, ITreatmentable, IRecoverable
 {
     [SerializeField] private float _startValue;
     [SerializeField] private float _maxValue;
 
-    public event Action Changed;
+    private float _currentValue;
+
+    public event Action<float, float> Changed;
     public event Action Overed;
 
-    public float Value { get; private set; }
-
-    public float MaxValue { get; private set; }
-
-    private void Awake()
+    private void Start()
     {
-        Value = _startValue;
-        MaxValue = _maxValue;
+        _currentValue = _startValue;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        Value -= damage;
-        Changed?.Invoke();
+        _currentValue -= damage;
+        Changed?.Invoke(_currentValue, _maxValue);
 
-        if (Value <= 0)
+        if (_currentValue <= 0)
             Overed?.Invoke();
     }
 
-    public void GetTreatment(int treatment)
+    public void Treat(float treatment)
     {
-        Value += treatment;
-        Changed?.Invoke();
+        _currentValue += treatment;
+        Changed?.Invoke(_currentValue, _maxValue);
     }
 
     public void Recover()
     {
-        Value = _startValue;
-        Changed?.Invoke();
+        _currentValue = _startValue;
+        Changed?.Invoke(_currentValue, _maxValue);
     }
 }

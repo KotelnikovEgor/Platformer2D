@@ -21,20 +21,20 @@ public class PersecutionState : BaseState, IEnterablePayloadState<PlayerPayload>
 
     public void Update()
     {
-        if (!_vision.IsSeePlayer)
+        if (!Vision.IsSeePlayer)
         {
-            _stateMachine.ChangeState<PatrolState>();
+            StateMachine.ChangeState<PatrolState>();
             return;
         }
 
         if (_player != null)
         {
-            float distance = Mathf.Abs(_transform.position.x - _player.position.x);
+            float distance = Mathf.Abs(Transform.position.x - _player.position.x);
 
             if (distance <= _attackEnterDistance)
             {
                 PlayerPayload payload = new(_player);
-                _stateMachine.ChangeState<AttackState, PlayerPayload>(payload);
+                StateMachine.ChangeState<AttackState, PlayerPayload>(payload);
                 return;
             }
 
@@ -44,6 +44,6 @@ public class PersecutionState : BaseState, IEnterablePayloadState<PlayerPayload>
 
     private void Move()
     {
-        _transform.position = Vector3.MoveTowards(_transform.position, _player.position, _speed *  Time.deltaTime);
+        Transform.position = Vector3.MoveTowards(Transform.position, _player.position, _speed *  Time.deltaTime);
     }
 }

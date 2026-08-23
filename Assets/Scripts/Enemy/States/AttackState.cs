@@ -28,20 +28,20 @@ public class AttackState : BaseState, IEnterablePayloadState<PlayerPayload>, IUp
 
     public void Update()
     {
-        if (!_vision.IsSeePlayer)
+        if (!Vision.IsSeePlayer)
         {
-            _stateMachine.ChangeState<PatrolState>();
+            StateMachine.ChangeState<PatrolState>();
             return;
         }
 
         if (_player != null)
         {
-            float distance = Mathf.Abs(_transform.position.x - _player.position.x);
+            float distance = Mathf.Abs(Transform.position.x - _player.position.x);
 
             if (distance >= _persecutionEnterDistance)
             {
                 PlayerPayload payload = new(_player);
-                _stateMachine.ChangeState<PersecutionState, PlayerPayload>(payload);
+                StateMachine.ChangeState<PersecutionState, PlayerPayload>(payload);
                 return;
             }
 

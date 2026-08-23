@@ -7,7 +7,7 @@ public class Medicine : MonoBehaviour, ICollectible
     public void Collect(Collector collector)
     {
         if(collector.TryGetComponent(out ITreatmentable treatmentable))
-            treatmentable.GetTreatment(_treatment);
+            treatmentable.Treat(_treatment);
 
         Destroy(gameObject);
     }

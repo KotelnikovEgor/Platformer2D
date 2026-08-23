@@ -4,25 +4,25 @@ using UnityEngine.UI;
 
 public class SmoothHealthBar : MonoBehaviour
 {
-    [SerializeField] private Health _health;
     [SerializeField] private Image _filling;
     [SerializeField] private float _speed = 0.5f;
 
+    private IValueChanger _changer;
     private Coroutine _coroutine;
 
     private void Start()
     {
-        _health.Changed += ChangeValue;
+        _changer.Changed += ChangeValue;
     }
 
     private void OnDisable()
     {
-        _health.Changed -= ChangeValue;
+        _changer.Changed -= ChangeValue;
     }
 
-    private void ChangeValue()
+    private void ChangeValue(float value, float maxValue)
     {
-        float valueAsPercent = _health.Value / _health.MaxValue;
+        float valueAsPercent = value / maxValue;
 
         if (_coroutine != null)
         {
@@ -41,5 +41,10 @@ public class SmoothHealthBar : MonoBehaviour
         }
 
         _filling.fillAmount = targetPercent;
+    }
+
+    public void Construct(IValueChanger changer)
+    {
+        _changer = changer;
     }
 }

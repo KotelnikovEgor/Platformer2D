@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyVision _vision;
     [SerializeField] private Vector3[] _targetPoints;
     [SerializeField] private Health _health;
+    [SerializeField] private SmoothHealthBar _smoothHealthBar;
 
     private IStateMachineUpdater _stateMachine;
     private EnemyDeath _enemyDeath;
@@ -27,5 +28,6 @@ public class Enemy : MonoBehaviour
         EnemyStateMachineFactory stateMachineFactory = new(animationSwitcher, _vision, transform, _targetPoints, fliper);
         _stateMachine = stateMachineFactory.Create();
         _enemyDeath = new(_health, gameObject);
+        _smoothHealthBar.Construct(_health);
     }
 }

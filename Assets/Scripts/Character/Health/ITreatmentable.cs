@@ -1,4 +1,4 @@
 public interface ITreatmentable
 {
-    void GetTreatment(int treatment);
+    void Treat(float treatment);
 }

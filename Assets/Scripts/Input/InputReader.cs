@@ -8,6 +8,7 @@ public class InputReader : MonoBehaviour, IDirectionProvider, IJumpProvider
     private const string Fire1 = nameof(Fire1);
 
     public event Action FirePressed;
+    public event Action VampirismKeyPressed;
 
     public float Direction { get; private set; }
 
@@ -20,5 +21,8 @@ public class InputReader : MonoBehaviour, IDirectionProvider, IJumpProvider
 
         if (Input.GetButtonDown(Fire1))
             FirePressed?.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.E)) 
+            VampirismKeyPressed?.Invoke();
     }
 }

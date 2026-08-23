@@ -3,22 +3,27 @@ using UnityEngine;
 
 public class TextHealth : MonoBehaviour
 {
-    [SerializeField] private Health _health;
     [SerializeField] private TextMeshProUGUI _text;
+
+    private IValueChanger _changer;
 
     private void Start()
     {
-        _text.text = _health.MaxValue.ToString();
-        _health.Changed += ChangeValue;
+        _changer.Changed += ChangeValue;
     }
 
     private void OnDisable()
     {
-        _health.Changed -= ChangeValue;
+        _changer.Changed -= ChangeValue;
     }
 
-    private void ChangeValue()
+    private void ChangeValue(float value, float maxValue)
     {
-        _text.text = $"{_health.Value} / {_health.MaxValue}";
+        _text.text = $"{value} / {maxValue}";
+    }
+
+    public void Construct(IValueChanger changer)
+    {
+        _changer = changer;
     }
 }
